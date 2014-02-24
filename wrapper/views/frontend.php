@@ -7,13 +7,9 @@
 
 
 
-
+do_action('theader');
 
    ?>
-	<h1>Semantic</h1>
-
-	   
-
 
 
 <h2 class="nav-tab-wrapper">
@@ -70,7 +66,7 @@
 
 
 <br>
-<h2>Left tab view</h2>
+<h2>Semantic</h2>
 
 
 

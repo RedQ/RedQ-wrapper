@@ -1,5 +1,7 @@
 <?php
 
+
+
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
@@ -100,22 +102,28 @@ class TSettingsApi{
 		// add style and js 
 
 
-		foreach ($settings as $tab => $value) {
+		$this->get_alldata();
+
+
+
+
+
+	}
+
+
+	public function get_alldata(){
+
+		global $tada;
+		foreach ($this->settings as $tab => $fields) {
 		   $tabname = strtolower(str_replace(" ", "_", $tab));
 
 		   if( get_option($tabname) ){
-		  		$tab_op[]= get_option($tabname); 	
+		  		$tab_option[]= get_option($tabname); 	
 		   }  
 
-		}
+		}	
 
-
-		global $tada;
-
-		$tada = $this->array_flatten($tab_op,array());
-
-        // break the option type and go with the data . 
-
+		$tada = $this->array_flatten($tab_option,array());
 	}
 
 
@@ -233,11 +241,11 @@ class TSettingsApi{
 				break;
 			
 			case 'select':
-				echo '<select class="select' . $field_class . '" name="mytheme_options[' . $id . ']">';
+				echo '<select class="select"  id="'.$section.'[' . $id . ']" name="'.$section.'[' . $id . ']" >';
 				
-				foreach ( $choices as $value => $label )
-					echo '<option value="' . esc_attr( $value ) . '"' . selected( $options[$id], $value, false ) . '>' . $label . '</option>';
-				
+				 foreach ( $options as $key => $label ) {
+					echo '<option value="' . esc_attr( $key ) . '"' . selected( $value, $key, false ) . '>' . $label . '</option>';
+					}
 				echo '</select>';
 				
 				if ( $desc != '' )
@@ -247,10 +255,10 @@ class TSettingsApi{
 			
 			case 'radio':
 				$i = 0;
-				foreach ( $choices as $value => $label ) {
-					echo '<input class="radio' . $field_class . '" type="radio" name="mytheme_options[' . $id . ']" id="' . $id . $i . '" value="' . esc_attr( $value ) . '" ' . checked( $options[$id], $value, false ) . '> <label for="' . $id . $i . '">' . $label . '</label>';
+				foreach ( $options as $key => $label ) {
+					echo '<input class="radio" type="radio" id="'.$section.'['. $id .']['.$key.']" name="'.$section.'[' . $id . ']"   value="' . esc_attr( $key ) . '" ' . checked( $value, $key, false ) . '> <label for="'.$section.'[' . $id . ']['.$key.']" >' . $label . '</label>';
 					if ( $i < count( $options ) - 1 )
-						echo '<br />';
+						echo '<br /> <br/>';
 					$i++;
 				}
 				
@@ -260,7 +268,7 @@ class TSettingsApi{
 				break;
 			
 			case 'textarea':
-				echo '<textarea class="' . $field_class . '" id="' . $id . '" name="mytheme_options[' . $id . ']" placeholder="' . $std . '" rows="5" cols="30">' . wp_htmledit_pre( $options[$id] ) . '</textarea>';
+				echo '<textarea class=""  id="'.$section.'[' . $id . ']" name="'.$section.'[' . $id . ']"    placeholder="' . $std . '" rows="5" cols="30">' . esc_attr( $value ) . '</textarea>';
 				
 				if ( $desc != '' )
 					echo '<br /><span class="description">' . $desc . '</span>';
@@ -268,7 +276,7 @@ class TSettingsApi{
 				break;
 			
 			case 'password':
-				echo '<input class="regular-text' . $field_class . '" type="password" id="' . $id . '" name="mytheme_options[' . $id . ']" value="' . esc_attr( $options[$id] ) . '" />';
+				echo '<input class="regular-text" type="password"  id="'.$section.'[' . $id . ']" name="'.$section.'[' . $id . ']"  value="' .esc_attr( $value ). '" />';
 				
 				if ( $desc != '' )
 					echo '<br /><span class="description">' . $desc . '</span>';

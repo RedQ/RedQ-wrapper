@@ -3,7 +3,7 @@
 
     require_once 'wrapper/class.settingsapi.php';
 
-    $page = new Page('Settings', array('type' => 'menu'));
+    $page = new Page('shishir', array('type' => 'menu'));
 
 
 $settings = array();
@@ -12,6 +12,7 @@ $settings = array();
 $settings['Tab One'] = array();
 $settings['Tab Two'] = array();
 $settings['Tab Three'] = array();
+$settings['Tab four'] = array();
 
 
 // Section One
@@ -32,19 +33,30 @@ $settings['Tab Three'] = array();
         'desc'  => 'I\'m awesome',
     ),
     array(
-        'type'  => 'text',
-        'name'  => 'my_textfield_1',
-        'label' => 'My Text Field'
+        'type'  => 'textarea',
+        'name'  => 'my_textarea_1',
+        'label' => 'My Text Field',
+        'desc'  => 'i\'m really awesome'
       ),
     array(
-        'type'  => 'text',
-        'name'  => 'my_textfield_2',
-        'label' => 'My Text Field'
+        'type'  => 'select',
+        'name'  => 'my_selectbox',
+        'label' => 'My Text Field',
+        'options' => array(
+              'one'   => 'One',
+              'two'   => 'Two',
+              'three' => 'Three',
+              'four'  => 'Four'
+        )
       ),
     array(
-        'type'  => 'text',
-        'name'  => 'my_textfield_3',
-        'label' => 'My Text Field'
+        'type'  => 'radio',
+        'name'  => 'my_radio_field',
+        'label' => 'My Text Field',
+        'options' => array(
+            'yes' => 'Yes',
+            'no'  => 'No'
+        )
       ),
 
     array(
@@ -84,11 +96,40 @@ $settings['Tab Three'] = array();
   );
 
   $settings['Tab Two']['fields'] = $fields;
+
+
+
+  $fields = array();
+  $fields = array(
+    array(
+        'type'  => 'text',
+        'name'  => 'my_textfield_10',
+        'label' => 'My Text Field',
+        'desc'  => 'by shishir vai'
+      ),
+    array(
+        'type'  => 'text',
+        'name'  => 'my_textfield_11',
+        'label' => 'My Text Field'
+      )
+
+
+  );
+
+  $settings['Tab Three']['fields'] = $fields;
+
+
+
     
   new TSettingsApi( $page , $settings );
 
 
 
+function output_about_text() {
+    echo '<h1>Exploring wp settings api</h1>';
+    echo '<p>wow , nice hooking </p>';
+}
+add_action('theader','output_about_text');
 
 
 

@@ -9,6 +9,28 @@ typography
  
 
 
+text 
+textarea
+select
+radio.
+color
+fileupload
+image
+
+
+
+
+
+
+ajax submission . 
+
+
+
+
+
+
+
+
 
 
  
@@ -74,3 +96,6 @@ add_management_page()
 
 
 
+1. add field support
+2. add page support into single class. 
+3. 

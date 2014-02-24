@@ -53,7 +53,7 @@ $('.demo.menu .item')
                     }
                     $('.group').hide();
                     //$(clicked_group).fadeIn();
-                    $(clicked_group).show().addClass('animated bounceInDown');;
+                    $(clicked_group).show().addClass('animated fadeInRight');;
                     evt.preventDefault();
                 });
 
