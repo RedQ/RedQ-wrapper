@@ -1,13 +1,12 @@
 <div class="wrap">
-  <?php  screen_icon(); 
+  <?php  
 
  global $tada;
-
  var_dump($tada);
 
 
 
-do_action('theader');
+    do_action('theader');
 
    ?>
 
@@ -24,7 +23,13 @@ do_action('theader');
        
  <?php  } ?>
 </h2>
+
+
 <br>
+
+
+
+
 
 
 <?php   foreach ($this->settings as $tab => $section){ 
@@ -38,16 +43,11 @@ do_action('theader');
 
        <form method="post" action="options.php">   
           <?php
-  settings_fields($tabname); 
-  //do_settings_fields( $tabname, $tabname );
-
-  do_settings_sections( $tabname );
-
-
-  submit_button();
-
-
-  ?>
+            settings_fields($tabname); 
+            //do_settings_fields( $tabname, $tabname );
+            do_settings_sections( $tabname );
+            submit_button();
+         ?>
 </form>
         </div>
 

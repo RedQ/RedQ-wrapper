@@ -2,13 +2,14 @@
 
 
 jQuery(document).ready(function($) {
-   // write code here
 
 
 
-$('.demo.menu .item')
-  .tab()
-;
+
+               $('.demo.menu .item').tab();
+               $('.wp-color-picker-field').wpColorPicker();
+
+
 
 
                 $('.group').hide();
@@ -57,6 +58,62 @@ $('.demo.menu .item')
                     evt.preventDefault();
                 });
 
+            $('.cancel').on('click',function(e){
+                e.preventDefault();
 
+               var imgref = $(this).attr('ref');
+                 $('input.'+imgref).val(' ');
+                 $('img.'+imgref).attr('src','').css({'display':'none'});
+                 $(this).hide();
+
+            });
+
+
+
+
+         // Uploading files
+var file_frame;
+ 
+  $('.upload_image_button').on('click', function( event ){
+ 
+    event.preventDefault();
+
+    ref = $(this).attr('ref');
+
+
+ 
+    // If the media frame already exists, reopen it.
+    if ( file_frame ) {
+      file_frame.open();
+      return;
+    }
+ 
+    // Create the media frame.
+    file_frame = wp.media.frames.file_frame = wp.media({
+      title: $( this ).data( 'uploader_title' ),
+      button: {
+        text: $( this ).data( 'uploader_button_text' ),
+      },
+      multiple: false  // Set to true to allow multiple files to be selected
+    });
+ 
+    // When an image is selected, run a callback.
+    file_frame.on( 'select', function() {
+      // We set multiple to false so only get one image from the uploader
+      attachment = file_frame.state().get('selection').first().toJSON();
+ 
+      // Do something with attachment.id and/or attachment.url here
+      $('input.'+ref).val(attachment.url);
+      $('.cancel_'+ref).css({'display':''});
+      $('img.'+ref).attr('src',attachment.url).css({'display':'block'});
+
+
+
+
+    });
+ 
+    // Finally, open the modal
+    file_frame.open();
+  });
 
 });

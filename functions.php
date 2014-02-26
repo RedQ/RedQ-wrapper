@@ -1,5 +1,5 @@
 <?php
- //  require_once 'sap/settings-api.php';
+
 
     require_once 'wrapper/class.settingsapi.php';
 
@@ -13,6 +13,8 @@ $settings['Tab One'] = array();
 $settings['Tab Two'] = array();
 $settings['Tab Three'] = array();
 $settings['Tab four'] = array();
+$settings['Tab five'] = array();
+
 
 
 // Section One
@@ -26,6 +28,12 @@ $settings['Tab four'] = array();
   $fields = array();
 
   $fields = array(
+    array(
+        'type'  => 'heading',
+        'name'  => 'my_heading',
+        'label' => 'My heading Field',
+        'desc'  => 'I\'m awesome',
+    ),
     array(
         'type'  => 'text',
         'name'  => 'my_textfield',
@@ -50,6 +58,14 @@ $settings['Tab four'] = array();
         )
       ),
     array(
+
+        'type' => 'checkbox',
+        'name'  => 'my_checkbox',
+        'label' => 'My checkbox',
+        'desc'  => 'i\'m really awesome'
+    ),
+
+    array(
         'type'  => 'radio',
         'name'  => 'my_radio_field',
         'label' => 'My Text Field',
@@ -60,14 +76,32 @@ $settings['Tab four'] = array();
       ),
 
     array(
-        'type'  => 'text',
-        'name'  => 'my_textfield_4',
-        'label' => 'My Text Field'
+        'type'  => 'editor',
+        'name'  => 'my_editor',
+        'label' => 'My Editor'
       ),
     array(
-        'type'  => 'text',
-        'name'  => 'my_textfield_5',
-        'label' => 'My Text Field'
+        'type'  => 'color',
+        'name'  => 'my_color_field',
+        'label' => 'choose colour'
+      ),
+
+    array(
+        'type'  => 'media',
+        'name'  => 'my_media',
+        'label' => 'choose colour'
+      ),
+
+    array(
+        'type'  => 'media',
+        'name'  => 'my_media_2',
+        'label' => 'my media 2'
+      ),
+
+    array(
+        'type'  => 'media',
+        'name'  => 'my_media_20',
+        'label' => 'my media'
       )
 
   );
@@ -108,8 +142,8 @@ $settings['Tab four'] = array();
         'desc'  => 'by shishir vai'
       ),
     array(
-        'type'  => 'text',
-        'name'  => 'my_textfield_11',
+        'type'  => 'page',
+        'name'  => 'my_page',
         'label' => 'My Text Field'
       )
 
@@ -118,6 +152,29 @@ $settings['Tab four'] = array();
 
   $settings['Tab Three']['fields'] = $fields;
 
+  $fields = array();
+  $fields = array(
+    array(
+        'type'  => 'text',
+        'name'  => 'my_textfield_10',
+        'label' => 'My Text Field',
+        'desc'  => 'by shishir vai'
+      ),
+    array(
+        'type'  => 'page',
+        'name'  => 'my_page',
+        'label' => 'My Text Field'
+      ),
+    array(
+        'type'  => 'category',
+        'name'  => 'my_category',
+        'label' => 'My Category Field'
+      )
+
+
+  );
+
+  $settings['Tab five']['fields'] = $fields;
 
 
     

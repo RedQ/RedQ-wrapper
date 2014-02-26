@@ -2,18 +2,15 @@ add menu page
 various type of menu 
 tab , 
 fields
- [ text , textarea ]
-editor , background , border , checkbox , color , date , dimensions , gallery , group , file , image
-password , radio , select ,  slider , slides , sortable , sorter ,
-typography 
- 
+ [
+
+#reusable 
+#image uplaod 3.5 api
+#google font. 
 
 
-text 
-textarea
-select
-radio.
-color
+
+
 fileupload
 image
 
@@ -37,7 +34,6 @@ ajax submission .
 save
 reset .
 ajax save . 
-
 conditional .
 
 

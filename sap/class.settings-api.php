@@ -42,10 +42,21 @@ class WeDevs_Settings_API {
         wp_enqueue_style( 'wp-color-picker' );
         wp_enqueue_style( 'thickbox' );
 
+
+
+
         wp_enqueue_script( 'wp-color-picker' );
         wp_enqueue_script( 'jquery' );
-        wp_enqueue_script( 'media-upload' );
-        wp_enqueue_script( 'thickbox' );
+
+        if ( function_exists( 'wp_enqueue_media' ) ){
+            wp_enqueue_media();
+        }else{
+            wp_enqueue_script( 'media-upload' );
+            wp_enqueue_script( 'thickbox' );
+        }
+            
+
+
     }
 
     /**

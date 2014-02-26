@@ -66,20 +66,11 @@ class Page{
 
 
 
-
-
 class TSettingsApi{
-
-
 
 	public $page;
 
-
-
-
 	function __construct( $page , $settings = array() ) {
-
-
 
 		//path
 
@@ -89,24 +80,15 @@ class TSettingsApi{
 
 		
 		$this->page = $page;
-
 		$this->settings = $settings;
-
-
-
 
 		add_action( 'admin_enqueue_scripts', array($this,'add_style') );
 		add_action( 'admin_menu' , array($this,'register_settings_menu') );
 		add_action('admin_init', array($this, 'register_fields'));
 
-		// add style and js 
-
+     	// add style and js 
 
 		$this->get_alldata();
-
-
-
-
 
 	}
 
@@ -136,14 +118,21 @@ class TSettingsApi{
 		wp_register_style( 'custom_wp_admin_css', TSAPICSS. 'style.css', false, '1.0.0' );
         wp_enqueue_style( 'custom_wp_admin_css' );
 
-        // wp_register_script( 'jquery-new', TSAPIJS. 'jquery.js', false, '1.0.0' );
+
         wp_enqueue_script( 'jquery' );
 
 
-       wp_enqueue_script( 'wp-color-picker' );
+        wp_enqueue_script( 'wp-color-picker' );
 
-       wp_enqueue_script( 'media-upload' );
-       wp_enqueue_script( 'thickbox' );
+		if ( function_exists( 'wp_enqueue_media' ) ){
+			wp_enqueue_media();
+		}
+
+			
+
+
+        // wp_enqueue_script( 'media-upload' );
+        // wp_enqueue_script( 'thickbox' );
 
         wp_register_script( 'semantic', TSAPIJS. 'semantic.min.js', false, '1.0.0' );
         wp_enqueue_script( 'semantic' );
@@ -158,36 +147,12 @@ class TSettingsApi{
 
 	public function register_fields()
 	{
-	//	var_dump($this->settings);
-
-
-		// section thik korte hobe.
-		// field register korte hobe. 
-
-		
 
 		foreach ($this->settings as $tab => $section) {
 
-			 $tabname = strtolower(str_replace(" ", "_", $tab));
-			// if( get_option($tabname) == false)
-			// {
-			// 	add_option( $tabname );
+			$tabname = strtolower(str_replace(" ", "_", $tab));
+     		add_settings_section( $tabname, $tab, array($this,'callback_funn'), $tabname  );
 
-
-			// }
-
-
-
-
-			//$callback = '__return_false';
-
-			
-
-			//add_settings_section( $id, $title, $callback, $page );
-
-			add_settings_section( $tabname, $tab, array($this,'callback_funn'), $tabname  );
-
-			// add_settings_field( $id, $title, $callback, $page, $section, $args );
 
 			foreach ($section as $key => $value) {
 				foreach ($value as $options) {
@@ -204,8 +169,7 @@ class TSettingsApi{
                     'sanitize_callback' => isset( $options['sanitize_callback'] ) ? $options['sanitize_callback'] : '',
                 );
 
-  				//var_dump($args);
-
+  				
 
 				// 	add_settings_field($tabname . '[' . $options['name'] . ']', $options['label'], array( $this, 'callback_' . $options['type'] ), $tabname , $tabname, $args );
 
@@ -219,26 +183,40 @@ class TSettingsApi{
 			register_setting( $tabname, $tabname , array($this,'sanitize_options'));
 		}
 
+
+
+
 	}
 
 
 	public function add_fields($args = array()){
+
 		extract($args);
-		//echo $type;
+
 
 		$value = esc_attr( $this->get_option( $id, $section, $std ) );
+
+		$uname = $section.'['.$id.']';;
 		
 		switch ( $type ) {
 			
 			case 'heading':
 				echo '</td></tr><tr valign="top"><td colspan="2"><h4>' . $desc . '</h4>';
 				break;
+
+
+
+
 			
 			case 'checkbox':
 				
-				echo '<input class="checkbox' . $field_class . '" type="checkbox" id="' . $id . '" name="mytheme_options[' . $id . ']" value="1" ' . checked( $options[$id], 1, false ) . ' /> <label for="' . $id . '">' . $desc . '</label>';
+				echo '<input class="checkbox" type="checkbox"  id="'.$section.'[' . $id . ']" name="'.$section.'[' . $id . ']"   value="1" ' . checked( $value, 1, false ) . ' /> <label for="' . $id . '">' . $desc . '</label>';
 				
 				break;
+
+
+
+
 			
 			case 'select':
 				echo '<select class="select"  id="'.$section.'[' . $id . ']" name="'.$section.'[' . $id . ']" >';
@@ -252,8 +230,14 @@ class TSettingsApi{
 					echo '<br /><span class="description">' . $desc . '</span>';
 				
 				break;
+
+
+
+
+
 			
 			case 'radio':
+
 				$i = 0;
 				foreach ( $options as $key => $label ) {
 					echo '<input class="radio" type="radio" id="'.$section.'['. $id .']['.$key.']" name="'.$section.'[' . $id . ']"   value="' . esc_attr( $key ) . '" ' . checked( $value, $key, false ) . '> <label for="'.$section.'[' . $id . ']['.$key.']" >' . $label . '</label>';
@@ -266,22 +250,106 @@ class TSettingsApi{
 					echo '<br /><span class="description">' . $desc . '</span>';
 				
 				break;
+
+
+
+
+
 			
 			case 'textarea':
+
+
 				echo '<textarea class=""  id="'.$section.'[' . $id . ']" name="'.$section.'[' . $id . ']"    placeholder="' . $std . '" rows="5" cols="30">' . esc_attr( $value ) . '</textarea>';
 				
 				if ( $desc != '' )
 					echo '<br /><span class="description">' . $desc . '</span>';
 				
 				break;
+
+
+
+			case 'color':
+
+
+				
+				echo '<input class="regeular-text wp-color-picker-field" type="text"   id="'.$section.'[' . $id . ']" name="'.$section.'[' . $id . ']"  value="'.esc_attr( $value ).'"  /> ';
+
+				if ( $desc != '' )
+					echo '<br /><span class="description">' . $desc . '</span>';
+				
+				break;
+
+
+		   case 'editor':
+
+		        echo '<div>';
+
+		        wp_editor( $value, $section.'['.$id.']', array( 'tinymce' =>true, 'textarea_rows' => '' ) );
+
+		        echo '</div>';
+
+				if ( $desc != '' )
+					echo '<br /><span class="description">' . $desc . '</span>';				
+				break;
+		   	    break;
+
+
+
 			
 			case 'password':
+
+
 				echo '<input class="regular-text" type="password"  id="'.$section.'[' . $id . ']" name="'.$section.'[' . $id . ']"  value="' .esc_attr( $value ). '" />';
 				
 				if ( $desc != '' )
 					echo '<br /><span class="description">' . $desc . '</span>';
 				
 				break;
+			
+
+			case 'page':
+
+				$s = $section.'['.$id.']';
+				$output = wp_dropdown_pages( array( 'name' => $s, 'echo' => 0, 
+					'selected' => $value ) );
+				echo $output;
+
+			break;
+
+
+			case 'category':
+
+				$s = $section.'['.$id.']';
+				$output = wp_dropdown_categories( array('name' => $s, 'echo' => 0, 
+					'selected' => $value ) );
+				echo $output;
+
+			break;
+
+			case 'media':
+
+				$display = "";
+				if(empty($value)){
+					$display = 'none;';
+				} 
+
+				echo '<div class="uploader">';
+				echo '<input type="text" name="'.$uname.'" class="'.$id.'" value="'.$value.'" />';
+				echo '<button class="upload_image_button button" style="margin-left:5px;" ref="'.$id.'" name="'.$uname.'_button" id="'.$uname.'_button">Upload</button>';
+				echo '<button class="cancel button cancel_'.$id.'" ref="'.$id.'" style="margin-left:5px;display:'.$display.' " >Cancel</button>';
+				
+				
+				echo '<br/><br/><img class="'.$id.'" src="'.$value.'"  style="border:5px solid #ccc; width:300px; display:'.$display.'"/>';
+					//$value = 'http://placehold.it/300x200';
+
+				
+				
+					
+				echo '</div>';
+
+			break ;
+
+
 			
 			case 'text':
 			default:
@@ -325,31 +393,17 @@ class TSettingsApi{
 
 	}
 
-    function callback_text( $args ) {
 
-        $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
-
-
-        $size = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
-
-        $html = sprintf( '<input type="text" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'] ,$value );
-        $html .= sprintf( '<span class="description"> %s</span>', $args['desc'] );
-
-        echo $html;
-    }
 
 
 
 	public function callback_funn($arg){
 
 
-
-
 	  // echo "section intro text here";
 	  // echo "<p>id: $arg[id]</p>\n";             // id: eg_setting_section
 	  // echo "<p>title: $arg[title]</p>\n";       // title: Example settings section in reading
 	 
-
 
 	}
 
@@ -369,14 +423,14 @@ class TSettingsApi{
     }
 
 
+
+
 	public function register_settings_menu(){
 
 		switch($this->page->type) {
 
 			case 'menu':
-			
 				add_menu_page( $this->page->title, $this->page->menu_title, $this->page->capability, $this->page->slug, array($this, 'render') );
-				//$this->set_page_hook('toplevel_page_');
 				break;
 
 			case 'submenu':
@@ -385,17 +439,11 @@ class TSettingsApi{
 
 
 			case 'settings':
-
-			   //$page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position
-
 				add_options_page( $this->page->title, $this->page->menu_title, $this->page->capability, $this->page->slug, array($this, 'render') );
-				//$this->set_page_hook('settings_page_');
 				break;
-
 
 			default:
 				add_theme_page( $this->page->title, $this->page->menu_title, $this->page->capability, $this->page->slug, array($this, 'render') );
-				//$this->set_page_hook('appearance_page_');
 				break;
 		}
 
@@ -403,6 +451,7 @@ class TSettingsApi{
 	}
 
 	public function array_flatten($array,$return){
+
 	   foreach($array as $key => $value){
 	    if(is_array($value))
 	    {
@@ -414,11 +463,14 @@ class TSettingsApi{
 	    }
 	  }
 	  return $return;
+
 	}
 
 
 	public function render(){
+
 	   	include_once('views/frontend.php' );
+
 	}
 
 
