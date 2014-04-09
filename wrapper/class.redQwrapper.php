@@ -107,6 +107,7 @@ class TSettingsApi{
 	public function get_alldata(){
 
 		global $tada;
+        $tab_option = array();
 		foreach ($this->settings as $tab => $fields) {
 		   $tabname = strtolower(str_replace(" ", "_", $tab));
 
