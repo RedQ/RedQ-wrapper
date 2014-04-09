@@ -95,10 +95,10 @@
 
   <div class="right floated twelve wide  column">
       <?php  foreach ($this->settings as $tab => $section): ?>
-      	<div class="ui bottom attached piled segment tab" data-tab="<?php echo strtolower(str_replace(" ", "_", $tab));    ?>"> 
+      	<div class="ui bottom attached segment tab" data-tab="<?php echo strtolower(str_replace(" ", "_", $tab));    ?>"> 
       <form method="post" action="options.php">
 
-<div class="ui form">
+<div class="ui">
 
 
 

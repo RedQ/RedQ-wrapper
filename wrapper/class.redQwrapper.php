@@ -1,5 +1,16 @@
 <?php
-
+/**
+ * RedQ Wrapper
+ *
+ * Create wp settings page , settings fields very easily
+ *
+ * @package    RedQ Wrapper
+ * @author     RedQ <https://github.com/RedQ>
+ * @copyright  RedQ <https://github.com/RedQ>
+ * @license    For non-commercial, personal, or open source projects and applications, you may use RedQ Wrapper under the terms of the GPL v3 License.
+ * @version    Release: 0.1
+ * @link       https://github.com/RedQ/RedQ-wrapper
+ */
 
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -196,7 +207,7 @@ class TSettingsApi{
 
 		$value = esc_attr( $this->get_option( $id, $section, $std ) );
 
-		$uname = $section.'['.$id.']';;
+		$uname = $section.'['.$id.']';
 		
 		switch ( $type ) {
 			
@@ -311,7 +322,7 @@ class TSettingsApi{
 
 				$s = $section.'['.$id.']';
 				$output = wp_dropdown_pages( array( 'name' => $s, 'echo' => 0, 
-					'selected' => $value ) );
+					'selected' => $value ,'show_option_none '=>'' ) );
 				echo $output;
 
 			break;
@@ -338,16 +349,47 @@ class TSettingsApi{
 				echo '<button class="upload_image_button button" style="margin-left:5px;" ref="'.$id.'" name="'.$uname.'_button" id="'.$uname.'_button">Upload</button>';
 				echo '<button class="cancel button cancel_'.$id.'" ref="'.$id.'" style="margin-left:5px;display:'.$display.' " >Cancel</button>';
 				
-				
-				echo '<br/><br/><img class="'.$id.'" src="'.$value.'"  style="border:5px solid #ccc; width:300px; display:'.$display.'"/>';
-					//$value = 'http://placehold.it/300x200';
-
-				
-				
-					
+            	echo '<br/><br/><img class="'.$id.'" src="'.$value.'"  style="border:5px solid #ccc; width:300px; display:'.$display.'"/>';
+		
 				echo '</div>';
 
 			break ;
+
+
+			case 'repeat_text':
+
+
+
+					 $counter = 0;
+					 
+						$output = '<div class="of-repeat-loop">';
+					 
+						if( is_array( $value ) ) foreach ( (array)$value as $item_value ){
+					 
+							$output .= '<div class="of-repeat-group">';
+							$output .= '<input class="of-input" name="' . esc_attr( $uname. '['.$counter.']' ) . '" type="text" value="' . esc_attr( $item_value ) . '" />';
+							$output .= '<button class="dodelete button icon delete">'. __('Remove') .'</button>';
+					 
+							$output .= '</div><!--.of-repeat-group-->';
+					 
+							$counter++;
+						}
+					 
+						$output .= '<div class="of-repeat-group to-copy">';
+						$output .= '<input class="of-input" data-rel="' . esc_attr( $uname ) . '" type="text" value="" />';
+						$output .= '<button class="dodelete button icon delete">'. __('Remove') .'</button>';
+						$output .= '</div><!--.of-repeat-group-->';
+					 
+					 
+						$output .= '<button class="docopy button icon add">Add</button>';
+					 
+						$output .= '</div><!--.of-repeat-loop-->';
+ 
+
+    			echo $output;
+
+
+			break;
 
 
 			
@@ -370,6 +412,8 @@ class TSettingsApi{
      * Sanitize callback for Settings API
      */
     function sanitize_options( $options ) {
+
+
         foreach( $options as $option_slug => $option_value ) {
             // $sanitize_callback = $this->get_sanitize_callback( $option_slug );
 
@@ -384,6 +428,16 @@ class TSettingsApi{
                 $options[ $option_slug ] = sanitize_text_field( $option_value );
                 continue;
             }
+
+		    if( is_array( $option_value ) ){
+		    	$options[ $option_slug ]  = array_map( 'sanitize_text_field', $option_value);
+		    }
+		        
+
+
+
+
+
         }
         return $options;
     }

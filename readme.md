@@ -4,15 +4,11 @@ tab ,
 fields
  [
 
-#reusable 
-#image uplaod 3.5 api
-#google font. 
+#reusable block
+#reusable text
+#saving with ajax
 
 
-
-
-fileupload
-image
 
 
 

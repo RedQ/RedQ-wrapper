@@ -71,6 +71,34 @@ jQuery(document).ready(function($) {
 
 
 
+// repeat 
+
+    $(".docopy").on("click", function(e){
+      e.preventDefault();
+ 
+      // the loop object
+      $loop = $(this).parent();
+ 
+      // the group to copy
+      $group = $loop.find('.to-copy').clone().insertBefore($(this)).removeClass('to-copy');
+ 
+      // the new input
+      $input = $group.find('input');
+ 
+      input_name = $input.attr('data-rel');
+      count = $loop.children('.of-repeat-group').not('.to-copy').length;
+ 
+      $input.attr('name', input_name + '[' + ( count - 1 ) + ']');
+ 
+ 
+    });
+ 
+    $(".of-repeat-group").on("click", ".dodelete", function(e){
+      e.preventDefault();
+      $(this).parent().remove();
+    });
+
+
          // Uploading files
 var file_frame;
  

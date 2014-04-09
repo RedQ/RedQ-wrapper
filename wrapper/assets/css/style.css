@@ -2824,3 +2824,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   -webkit-animation-name: rollOut;
   animation-name: rollOut;
 }
+
+
+
+		.to-copy {display: none;}
+ 
+		.of-repeat-group {
+            overflow: hidden;
+            margin-bottom: 1.4em;
+        }
+		.of-repeat-group .of-input {
+            width: 80%;
+        }
+ 
+        .of-repeat-group .dodelete {
+            float: right;
+        }
