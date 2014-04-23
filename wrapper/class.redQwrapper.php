@@ -143,9 +143,6 @@ class TSettingsApi{
 			
 
 
-        // wp_enqueue_script( 'media-upload' );
-        // wp_enqueue_script( 'thickbox' );
-
         wp_register_script( 'semantic', TSAPIJS. 'semantic.min.js', false, '1.0.0' );
         wp_enqueue_script( 'semantic' );
 
@@ -183,7 +180,7 @@ class TSettingsApi{
 
   				
 
-				// 	add_settings_field($tabname . '[' . $options['name'] . ']', $options['label'], array( $this, 'callback_' . $options['type'] ), $tabname , $tabname, $args );
+	
 
 					add_settings_field($tabname . '[' . $options['name'] . ']', $options['label'], array( $this, 'add_fields' ), $tabname , $tabname, $args );
 				}
@@ -409,22 +406,14 @@ class TSettingsApi{
 	}
 
 
-    /**
-     * Sanitize callback for Settings API
-     */
+
     function sanitize_options( $options ) {
 
 
         foreach( $options as $option_slug => $option_value ) {
-            // $sanitize_callback = $this->get_sanitize_callback( $option_slug );
 
-            // // If callback is set, call it
-            // if ( $sanitize_callback ) {
-            //     $options[ $option_slug ] = call_user_func( $sanitize_callback, $option_value );
-            //     continue;
-            // }
 
-            // Treat everything that's not an array as a string
+            
             if ( !is_array( $option_value ) ) {
                 $options[ $option_slug ] = sanitize_text_field( $option_value );
                 continue;
@@ -455,10 +444,7 @@ class TSettingsApi{
 	public function callback_funn($arg){
 
 
-	  // echo "section intro text here";
-	  // echo "<p>id: $arg[id]</p>\n";             // id: eg_setting_section
-	  // echo "<p>title: $arg[title]</p>\n";       // title: Example settings section in reading
-	 
+
 
 	}
 
